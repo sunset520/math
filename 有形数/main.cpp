@@ -3,13 +3,15 @@
 #include<cmath>
 #include<cstring>
 #include<sstream>
+#include<assert.h>
 
 #define MAX_N 1000005
-#define INF 99999
+#define INF 999999999
 
-void computeAdditive(int(*get)(std::vector<int>, int), std::vector<int> params, int max_num) {
-    int* dp = new int[MAX_N] {INF}; // 动态规划结果储存
-    int* pd = new int[MAX_N] {INF}; // 动态规划结果储存
+void computeAdditive(std::string name, int(*get)(std::vector<int>, int), std::vector<int> params, int max_num) {
+    assert(max_num <= MAX_N);
+    int* dp = new int[max_num+2] {INF}; // 动态规划结果储存
+    int* pd = new int[max_num+2] {INF}; // 动态规划结果储存
     int ans_num = 1; // 问题的解 ans_num
     int ans_max = 0; // 至少需要 ans_num 个数相加的最大数
     dp[0] = 0;
@@ -31,7 +33,12 @@ void computeAdditive(int(*get)(std::vector<int>, int), std::vector<int> params, 
             ans_max = i;
         }
     }
-    std::cout << ans_num << "\t" << ans_max << "\n";
+    std::cout <<max_num << "\t" << ans_num << "\t" << ans_max << "\t" << name << " ";
+    std::cout <<"{ ";
+    for(std::vector<int>::const_iterator i = params.begin();i != params.end();i++) {
+        std::cout<< *i <<' ';
+    }
+    std::cout << "}\n";
     return;
 }
 
@@ -130,14 +137,20 @@ int getRhombicDodecahedralNumber(std::vector<int>params, int index) {
 int getTricappedPrismNumber(std::vector<int>params, int index) {
     return index * (3 * index * index - 2 * index + 1) / 2;
 }
+
+void test() {
+    computeAdditive("Palindrome", getPalindrome, {}, 10000);
+    computeAdditive("PowerNumber", getPowerNumber, { 3 }, 10000);
+    computeAdditive("PyramidalNumber", getPyramidalNumber, { 3,3 }, 10000);
+    computeAdditive("StarNumber", getStarNumber, { 5 }, 10000);
+    computeAdditive("PolyhedronNumber", getPolyhedronNumber, { 12 }, 10000);
+    computeAdditive("StellaOctangulaNumber", getStellaOctangulaNumber, {}, 10000);
+    computeAdditive("RhombicDodecahedralNumber", getRhombicDodecahedralNumber, {}, 10000);
+    computeAdditive("TricappedPrismNumber", getTricappedPrismNumber, {}, 10000);
+    return;
+}
+
 int main() {
-    // computeAdditive(getPalindrome, {}, 10000);
-    // computeAdditive(getPowerNumber, { 3 }, 10000);
-    computeAdditive(getPyramidalNumber, { 3,3 }, 10000);
-    // computeAdditive(getStarNumber, { 5 }, 10000);
-    // computeAdditive(getPolyhedronNumber, { 12 }, 10000);
-    // computeAdditive(getStellaOctangulaNumber, {}, 10000);
-    // computeAdditive(getRhombicDodecahedralNumber, {}, 10000);
-    // computeAdditive(getTricappedPrismNumber, {}, 10000);
+    test();
     return 0;
 }
