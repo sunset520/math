@@ -100,8 +100,7 @@ int getStarNumber(std::vector<int>params, int index) {
 // params: {face_num}
 int getPolyhedronNumber(std::vector<int>params, int index) {
     int ans = 0;
-    switch (params[0])
-    {
+    switch (params[0]) {
     case 4:
         ans = index * (index + 1) * (index + 2) / 6;
         break;
