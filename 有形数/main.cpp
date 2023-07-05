@@ -1,15 +1,24 @@
-#include<iostream>
-#include<vector>
-#include<cmath>
-#include<cstring>
-#include<sstream>
-#include<assert.h>
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <cstring>
+#include <sstream>
+#include <assert.h>
+#include "main.h"
 
-#define MAX_N 1000005
-#define INF 999999999
+// 打印
+void print(std::string name, int(*get)(std::vector<int>, int), std::vector<int> params, int max_num) {
+    assert(max_num <= MAX_COMPUTE_N);
+    for(int i = 1;i <= max_num;i++) {
+        std::cout<<get(params, i) <<' ';
+    }
+    std::cout <<"\n";
+    return;
+}
 
-void computeAdditive(std::string name, int(*get)(std::vector<int>, int), std::vector<int> params, int max_num) {
-    assert(max_num <= MAX_N);
+// 计算堆垒性质
+void compute(std::string name, int(*get)(std::vector<int>, int), std::vector<int> params, int max_num) {
+    assert(max_num <= MAX_COMPUTE_N);
     int* dp = new int[max_num+2] {INF}; // 动态规划结果储存
     int* pd = new int[max_num+2] {INF}; // 动态规划结果储存
     int ans_num = 1; // 问题的解 ans_num
@@ -82,8 +91,22 @@ int getPowerNumber(std::vector<int>params, int index) {
     return (int)pow(index, params[0]);
 }
 
-// params: {dim_num, gonal_num}
+// params: {gonal_num}
+int getPolygonalNumber(std::vector<int>params, int index) {
+    std::vector<int> new_params = {2};
+    new_params.insert(new_params.end(),params.begin(), params.end());
+    return getGenernalizedPolygonalNumber(new_params, index);
+}
+
+// params: {gonal_num}
 int getPyramidalNumber(std::vector<int>params, int index) {
+    std::vector<int> new_params = {3};
+    new_params.insert(new_params.end(),params.begin(), params.end());
+    return getGenernalizedPolygonalNumber(new_params, index);
+}
+
+// params: {dim_num, gonal_num}
+int getGenernalizedPolygonalNumber(std::vector<int>params, int index) {
     int ans = 1;
     for (int i = 0;i <= params[0] - 2;i++) {
         ans = ans * (index + i) / (i + 1);
@@ -137,15 +160,18 @@ int getTricappedPrismNumber(std::vector<int>params, int index) {
     return index * (3 * index * index - 2 * index + 1) / 2;
 }
 
+
 void test() {
-    computeAdditive("Palindrome", getPalindrome, {}, 10000);
-    computeAdditive("PowerNumber", getPowerNumber, { 3 }, 10000);
-    computeAdditive("PyramidalNumber", getPyramidalNumber, { 3,3 }, 10000);
-    computeAdditive("StarNumber", getStarNumber, { 5 }, 10000);
-    computeAdditive("PolyhedronNumber", getPolyhedronNumber, { 12 }, 10000);
-    computeAdditive("StellaOctangulaNumber", getStellaOctangulaNumber, {}, 10000);
-    computeAdditive("RhombicDodecahedralNumber", getRhombicDodecahedralNumber, {}, 10000);
-    computeAdditive("TricappedPrismNumber", getTricappedPrismNumber, {}, 10000);
+    compute("Palindrome", getPalindrome, {}, 10000);
+    compute("PowerNumber", getPowerNumber, { 3 }, 10000);
+    compute("PolygonalNumber", getPolygonalNumber, { 5 }, 10000);
+    compute("PyramidalNumber", getPyramidalNumber, { 5 }, 10000);
+    compute("GenernalizedPolygonalNumber", getGenernalizedPolygonalNumber, { 3,3 }, 10000);
+    compute("StarNumber", getStarNumber, { 5 }, 10000);
+    compute("PolyhedronNumber", getPolyhedronNumber, { 12 }, 10000);
+    compute("StellaOctangulaNumber", getStellaOctangulaNumber, {}, 10000);
+    compute("RhombicDodecahedralNumber", getRhombicDodecahedralNumber, {}, 10000);
+    compute("TricappedPrismNumber", getTricappedPrismNumber, {}, 10000);
     return;
 }
 
