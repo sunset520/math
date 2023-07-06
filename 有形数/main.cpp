@@ -12,7 +12,12 @@ void print(std::string name, int(*get)(std::vector<int>, int), std::vector<int> 
     for(int i = 1;i <= max_num;i++) {
         std::cout<<get(params, i) <<' ';
     }
-    std::cout <<"\n";
+    std::cout<< name << " ";
+    std::cout <<"{ ";
+    for(std::vector<int>::const_iterator i = params.begin();i != params.end();i++) {
+        std::cout<< *i <<' ';
+    }
+    std::cout << "}\n";
     return;
 }
 
@@ -51,6 +56,7 @@ void compute(std::string name, int(*get)(std::vector<int>, int), std::vector<int
     return;
 }
 
+// 回文数
 // params: {}
 int getPalindrome(std::vector<int>params, int index) {
     int temp = index - 1;
@@ -86,11 +92,13 @@ int getPalindrome(std::vector<int>params, int index) {
     return res;
 }
 
+// 幂
 // params: {power_num}
 int getPowerNumber(std::vector<int>params, int index) {
     return (int)pow(index, params[0]);
 }
 
+// 多边形数
 // params: {gonal_num}
 int getPolygonalNumber(std::vector<int>params, int index) {
     std::vector<int> new_params = {2};
@@ -98,6 +106,7 @@ int getPolygonalNumber(std::vector<int>params, int index) {
     return getGenernalizedPolygonalNumber(new_params, index);
 }
 
+// 角锥数
 // params: {gonal_num}
 int getPyramidalNumber(std::vector<int>params, int index) {
     std::vector<int> new_params = {3};
@@ -105,6 +114,7 @@ int getPyramidalNumber(std::vector<int>params, int index) {
     return getGenernalizedPolygonalNumber(new_params, index);
 }
 
+// 广义多边形数
 // params: {dim_num, gonal_num}
 int getGenernalizedPolygonalNumber(std::vector<int>params, int index) {
     int ans = 1;
@@ -115,11 +125,13 @@ int getGenernalizedPolygonalNumber(std::vector<int>params, int index) {
     return ans;
 }
 
+// 星数
 // params: {angle_num}
 int getStarNumber(std::vector<int>params, int index) {
     return params[0] * index * index - params[0] * index + 1;
 }
 
+// 正多面体数
 // params: {face_num}
 int getPolyhedronNumber(std::vector<int>params, int index) {
     int ans = 0;
@@ -145,23 +157,39 @@ int getPolyhedronNumber(std::vector<int>params, int index) {
     return ans;
 }
 
+// 斯特拉八角星数
 // params: {}
 int getStellaOctangulaNumber(std::vector<int>params, int index) {
     return index * (2 * index * index - 1);
 }
 
+// 菱形十二面体数
 // params: {}
 int getRhombicDodecahedralNumber(std::vector<int>params, int index) {
     return 4 * index * index * index - 6 * index * index + 4 * index - 1;
 }
 
+// 三帽三棱柱数
 // params: {}
 int getTricappedPrismNumber(std::vector<int>params, int index) {
     return index * (3 * index * index - 2 * index + 1) / 2;
 }
 
+void testPrint() {
+    print("Palindrome", getPalindrome, {}, 10);
+    print("PowerNumber", getPowerNumber, { 3 }, 10);
+    print("PolygonalNumber", getPolygonalNumber, { 5 }, 10);
+    print("PyramidalNumber", getPyramidalNumber, { 5 }, 10);
+    print("GenernalizedPolygonalNumber", getGenernalizedPolygonalNumber, { 3,3 }, 10);
+    print("StarNumber", getStarNumber, { 5 }, 10);
+    print("PolyhedronNumber", getPolyhedronNumber, { 12 }, 10);
+    print("StellaOctangulaNumber", getStellaOctangulaNumber, {}, 10);
+    print("RhombicDodecahedralNumber", getRhombicDodecahedralNumber, {}, 10);
+    print("TricappedPrismNumber", getTricappedPrismNumber, {}, 10);
+    return;
+}
 
-void test() {
+void testCompute() {
     compute("Palindrome", getPalindrome, {}, 10000);
     compute("PowerNumber", getPowerNumber, { 3 }, 10000);
     compute("PolygonalNumber", getPolygonalNumber, { 5 }, 10000);
@@ -176,6 +204,7 @@ void test() {
 }
 
 int main() {
-    test();
+    testPrint();
+    // testCompute();
     return 0;
 }
